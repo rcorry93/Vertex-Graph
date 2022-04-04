@@ -1,0 +1,28 @@
+mat-drawer {
+  background-color: var(--carbon);
+  color: var(--neutral);
+
+}
+
+.menu-container, mat-toolbar {
+  background-color: var(--carbon);
+  color: var(--neutral);
+
+}
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidenav {
+  width: 200px;
+  height: 100%;
+}
+
+.content-container {
+  background-color: var(--neutral);
+  padding: 32px 16px
+}

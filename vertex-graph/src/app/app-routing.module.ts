@@ -1,7 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home/home.component';
+import { VertexGraphGeneratorComponent } from './components/vertex-graph/vertex-graph-generator/vertex-graph-generator.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+{
+  path:'',
+  redirectTo:'home',
+  pathMatch: 'full'
+},
+{
+  path: 'home',
+  component: HomeComponent,
+},
+{
+  path: 'vertex-graph-maker',
+  component: VertexGraphGeneratorComponent,
+},];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
