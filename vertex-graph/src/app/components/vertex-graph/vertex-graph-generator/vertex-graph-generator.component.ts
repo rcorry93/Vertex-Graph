@@ -6,62 +6,49 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-vertex-graph-generator',
   templateUrl: './vertex-graph-generator.component.html',
-  styleUrls: ['./vertex-graph-generator.component.scss']
+  styleUrls: ['./vertex-graph-generator.component.scss'],
 })
 export class VertexGraphGeneratorComponent implements OnInit {
-
   @Input() graph: GraphModel = new GraphModel([], []);
 
-  edges : Edge[] = new Array<Edge>();
+  edges: Edge[] = new Array<Edge>();
   vertices: Node[] = new Array<Node>();
   update$: Subject<boolean> = new Subject();
+  center$ = new Subject<any>();
 
+  constructor() {}
 
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
     this.updateGraph(this.graph);
   }
 
   updateGraph(graph: GraphModel) {
-    console.log("drawGraph");
     this.graph = graph;
     this.convertTypes(graph);
-    this.update$.next(true)
+    this.update$.next(true);
+    this.center$.next(true);
   }
 
-  convertTypes(graph: GraphModel){
-    console.log("edges Update start")
-
-    if(graph.edges != null){
-      var newEdges = graph.edges.map(edge => {
+  convertTypes(graph: GraphModel) {
+    if (graph.edges != null) {
+      this.edges = graph.edges.map(edge => {
         return {
           id: edge.id,
           source: edge.source_id,
           target: edge.target_id,
           label: edge.label,
-        }
+        };
       }) as Edge[];
-      this.edges.push(...newEdges);
-      console.log("edges Updated", newEdges)
-  }
-  console.log("vertices Update start")
-
-    if(graph.vertices != null){
-      var newVertices = graph.vertices.map(vertex => {
+    }
+    if (graph.vertices != null) {
+      this.vertices = graph.vertices.map(vertex => {
         return {
           id: vertex.id,
           label: vertex.label,
-        }
+        };
       }) as Node[];
-      this.vertices.push(...newVertices);
-      console.log("vertices Updated", newVertices)
-
-
     }
   }
 }

@@ -1,12 +1,12 @@
 <div class="flex h-100 w-100">
   <div class="flex flex-center flex-1">
     <app-json-input
-    (onJsonFileFound)="updateGraph($event)">
-  </app-json-input>
+      (onGraphUpdated)="updateGraph($event)"
+      (onInvalidJsonFile)="openSnackBar()">
+    </app-json-input>
   </div>
   <div class="flex flex-center flex-1">
-    <app-vertex-graph-generator
-    [graph]="this.generatedGraph">
+    <app-vertex-graph-generator [graph]="this.generatedGraph">
     </app-vertex-graph-generator>
   </div>
 </div>
