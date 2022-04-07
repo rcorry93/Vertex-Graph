@@ -1,14 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --sky: #CAEBF2;
-  --carbon: #A9A9A9;
-  --neutral: #E6E6E6;
-  --watermelon: #FF3B36;
+  --dark: #393e46;
+  --carbon: #393e46;
+  --neutral: #eeeeee;
+  --blue: #00adb5;
+  --white: #ffffff;
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -282,4 +288,3 @@ a {
   color: var(--neutral) !important;
   fill: var(--neutral) !important;
 }
-

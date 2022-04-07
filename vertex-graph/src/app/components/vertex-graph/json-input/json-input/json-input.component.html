@@ -1,7 +1,18 @@
 <div class="flex column">
   <div class="flex mb-16">
-    <input (change)="onFileChange($event)" type="file" accept="application/JSON" id="JsonUpload" required>
+    <input
+      (change)="onJsonFileAdded($event)"
+      type="file"
+      accept="application/JSON"
+      id="JsonUpload"
+      required />
+  </div>
+  <div class="flex">
+    <textarea
+      #textArea
+      name="jsonArea"
+      [(ngModel)]="jsonTextValue"
+      (ngModelChange)="onTextAreaChange()"
+      style="height: 45vh; width: 48vw"></textarea>
   </div>
 </div>
-
-
