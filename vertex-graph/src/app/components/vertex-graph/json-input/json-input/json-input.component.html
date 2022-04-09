@@ -1,18 +1,35 @@
 <div class="flex column">
-  <div class="flex mb-16">
-    <input
-      (change)="onJsonFileAdded($event)"
-      type="file"
-      accept="application/JSON"
-      id="JsonUpload"
-      required />
+  <div class="flex mb-16 align-center">
+      <button
+      [disabled]="selectedRadioOption == 'Example'"
+      mat-raised-button
+      (click)="fileInput.click()">
+        <span>Select a file</span>
+        <input #fileInput
+        (change)="onJsonFileAdded($event)"
+        type="file"
+        accept="application/JSON"
+        id="input-file-id"
+        required
+        style="display:none;" />
+      </button>
+      <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="selectedRadioOption">
+        <mat-radio-button class="example-radio-button" (change)="onRadioChange($event)"  *ngFor="let season of radioOptions" [value]="season">
+          {{season}}
+        </mat-radio-button>
+      </mat-radio-group>
+
   </div>
   <div class="flex">
     <textarea
       #textArea
+      [ngClass]="{'error-border': isInvalidJson === true}"
       name="jsonArea"
       [(ngModel)]="jsonTextValue"
       (ngModelChange)="onTextAreaChange()"
-      style="height: 45vh; width: 48vw"></textarea>
+      ></textarea>
   </div>
 </div>

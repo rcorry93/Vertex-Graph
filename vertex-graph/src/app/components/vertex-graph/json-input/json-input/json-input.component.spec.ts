@@ -65,7 +65,7 @@ describe('JsonInputComponent', () => {
     expect(component.onGraphUpdated.emit).toHaveBeenCalled();
   });
 
-  it('should create graph and emit GraphUpdated if correct json file is added', () => {
+  it('should not create graph and emit GraphUpdated if incorrect json file is added', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockIncorrectJson);
     expect(component.graphModel.edges?.length).toBe(0);

@@ -1,0 +1,17 @@
+mat-radio-button:first-child {
+  padding: 0px 16px;
+}
+
+mat-radio-button:not(:first-child) {
+  padding-right: 16px;
+}
+
+textarea {
+  height: 45vh;
+  width: 48vw;
+  border-radius: 8px;
+  outline: none;
+  border: 2px solid var(--dark);
+  border-radius: 8px;
+  background-color: var(--white);
+}

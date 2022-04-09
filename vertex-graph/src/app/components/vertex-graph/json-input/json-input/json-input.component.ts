@@ -1,21 +1,26 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 import { GraphModel } from 'src/app/models/graph';
+import * as mockdata from '../../../../../assets/mockdata';
 
 @Component({
   selector: 'app-json-input',
   templateUrl: './json-input.component.html',
   styleUrls: ['./json-input.component.scss'],
 })
-export class JsonInputComponent implements OnInit {
+export class JsonInputComponent {
   graphModel: GraphModel = new GraphModel([], []);
   jsonTextValue: string = '';
+  selectedRadioOption: string = 'Custom';
+  radioOptions: string[] = ['Custom', 'Example'];
+  isInvalidJson: boolean = false;
+
 
   @Output() onGraphUpdated = new EventEmitter<GraphModel>();
   @Output() onInvalidJsonFile = new EventEmitter();
 
   constructor() {}
 
-  ngOnInit(): void {}
 
   onJsonFileAdded(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -32,7 +37,14 @@ export class JsonInputComponent implements OnInit {
 
   onTextAreaChange() {
     if (this.jsonTextValue != '') {
+      this.selectedRadioOption = 'Custom';
       this.readJsonandCreateGraph(this.jsonTextValue);
+    }
+  }
+
+  onRadioChange(event: MatRadioChange) {
+    if (event.value === 'Example') {
+      this.readJsonandCreateGraph(mockdata.mockCorrectJson);
     }
   }
 
@@ -43,6 +55,8 @@ export class JsonInputComponent implements OnInit {
       this.jsonTextValue = JSON.stringify(json, undefined, 2);
       this.onGraphUpdated.emit(this.graphModel);
     } else {
+      this.isInvalidJson = true;
+      console.log(this.isInvalidJson);
       this.onInvalidJsonFile.emit();
     }
   }
@@ -50,6 +64,8 @@ export class JsonInputComponent implements OnInit {
   IsJsonString(str: string) {
     try {
       var json = JSON.parse(str);
+      this.isInvalidJson = false;
+      console.log(this.isInvalidJson);
       return typeof json === 'object';
     } catch (e) {
       return false;

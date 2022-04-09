@@ -39,6 +39,7 @@ export class VertexGraphGeneratorComponent implements OnInit {
           source: edge.source_id,
           target: edge.target_id,
           label: edge.label,
+          data: { type: edge.type }
         };
       }) as Edge[];
     }
@@ -47,6 +48,7 @@ export class VertexGraphGeneratorComponent implements OnInit {
         return {
           id: vertex.id,
           label: vertex.label,
+          data: { type: vertex.type }
         };
       }) as Node[];
     }
