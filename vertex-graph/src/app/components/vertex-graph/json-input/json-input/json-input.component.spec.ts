@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { GraphModel } from 'src/app/models/graph';
+import { MaterialModule } from 'src/app/modules/material.module';
 import * as mockdata from '../../../../../assets/mockdata';
 import { JsonInputComponent } from './json-input.component';
 
@@ -10,6 +12,7 @@ describe('JsonInputComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JsonInputComponent],
+      imports: [MaterialModule, FormsModule],
     }).compileComponents();
   });
 
@@ -69,5 +72,23 @@ describe('JsonInputComponent', () => {
     component.readJsonandCreateGraph(mockdata.mockIncorrectJson);
     expect(component.graphModel.edges?.length).toBe(0);
     expect(component.GraphUpdated.emit).not.toHaveBeenCalled();
+  });
+
+  it('should create an Edge object after passing correct json in', () => {
+    const json = JSON.parse(mockdata.mockEdgesJson);
+    const edgeObject = component.convertJsonEdgeToEdge(json.edges);
+    expect(edgeObject.length).toBe(3);
+    expect(edgeObject[0].id).toBe('e1');
+    expect(edgeObject[0].label).toBe('edge n1-n2');
+    expect(edgeObject[0].source).toBe('n1');
+    expect(edgeObject[0].target).toBe('n2');
+  });
+
+  it('should create a Node object after passing correct json in', () => {
+    const json = JSON.parse(mockdata.mockVerticesJson);
+    const nodeObject = component.convertJsonVerticeToNode(json.vertices);
+    expect(nodeObject.length).toBe(4);
+    expect(nodeObject[0].id).toBe('n1');
+    expect(nodeObject[0].label).toBe('Node 1');
   });
 });
