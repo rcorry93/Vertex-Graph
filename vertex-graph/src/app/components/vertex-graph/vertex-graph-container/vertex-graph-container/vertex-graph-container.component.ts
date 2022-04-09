@@ -12,8 +12,4 @@ export class VertexGraphContainerComponent {
   updateGraph(graph: GraphModel) {
     this.generatedGraph = graph;
   }
-
-  openSnackBar() {
-    alert('InvalidJson');
-  }
 }

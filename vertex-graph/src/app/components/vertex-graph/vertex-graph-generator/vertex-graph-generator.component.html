@@ -52,7 +52,7 @@
             <svg:rect
               [attr.width]="node.dimension.width"
               [attr.height]="node.dimension.height"
-              [attr.fill]="node.data.color" />
+              [attr.fill]="node.data.customColor || node.data.color" />
             <svg:text
               alignment-baseline="central"
               [attr.x]="10"
@@ -68,6 +68,7 @@
           <svg:path
             class="line"
             stroke-width="2"
+            [attr.stroke]="link.data.customColor || link.data.color"
             marker-end="url(#arrow)"></svg:path>
           <svg:text class="edge-label" text-anchor="middle">
             <textPath

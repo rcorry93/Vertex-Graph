@@ -17,11 +17,7 @@ export class JsonInputComponent {
   radioOptions: string[] = ['Custom', 'Example'];
   isInvalidJson = false;
 
-
   @Output() GraphUpdated = new EventEmitter<GraphModel>();
-  @Output() InvalidJsonFile = new EventEmitter();
-
-
 
   onJsonFileAdded(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -40,6 +36,8 @@ export class JsonInputComponent {
     if (this.jsonTextValue != '') {
       this.selectedRadioOption = 'Custom';
       this.readJsonandCreateGraph(this.jsonTextValue);
+    } else {
+      this.isInvalidJson = true;
     }
   }
 
@@ -50,37 +48,37 @@ export class JsonInputComponent {
   }
 
   readJsonandCreateGraph(jsonFile: string) {
-    if (this.IsJsonString(jsonFile)) {
+    if (this.isJsonString(jsonFile)) {
       const json = JSON.parse(jsonFile);
       this.graphModel = new GraphModel(
-        this.convertJsonEdgetoEdge(json.edges), this.convertJsonVerticetoNode(json.vertices));
+        this.convertJsonEdgeToEdge(json.edges), this.convertJsonVerticeToNode(json.vertices));
       this.jsonTextValue = JSON.stringify(json, undefined, 2);
       this.GraphUpdated.emit(this.graphModel);
     } else {
       this.isInvalidJson = true;
-      console.log(this.isInvalidJson);
-      this.InvalidJsonFile.emit();
     }
   }
 
-  IsJsonString(str: string) {
+  isJsonString(str: string) {
     try {
       const json = JSON.parse(str);
       this.isInvalidJson = false;
-      console.log(this.isInvalidJson);
       return typeof json === 'object';
     } catch (e) {
       return false;
     }
   }
 
-  convertJsonEdgetoEdge(jsonEdge: any): Edge[] {
+  convertJsonEdgeToEdge(jsonEdge: any): Edge[] {
     const edges: Edge[] = [];
     jsonEdge.forEach((edge: any) => {
       edges.push({
         id: edge.id,
         label: edge.label,
-        data: {type: edge.type},
+        data: {
+          type: edge.type,
+          customColor: edge.color
+        },
         source: edge.source_id,
         target: edge.target_id,
       });
@@ -89,13 +87,16 @@ export class JsonInputComponent {
     return edges;
   }
 
-  convertJsonVerticetoNode(jsonEdge: any): Node[] {
+  convertJsonVerticeToNode(jsonEdge: any): Node[] {
     const nodes: Node[] = [];
     jsonEdge.forEach((node: any) => {
       nodes.push({
         id: node.id,
         label: node.label,
-        data: {type: node.type}
+        data: {
+          type: node.type,
+          customColor: node.color
+        },
       });
     });
     return nodes;

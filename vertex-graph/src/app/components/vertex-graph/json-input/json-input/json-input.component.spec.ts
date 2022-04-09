@@ -19,7 +19,6 @@ describe('JsonInputComponent', () => {
     fixture.detectChanges();
     spyOn(component, 'readJsonandCreateGraph').and.callThrough();
     spyOn(component.GraphUpdated, 'emit');
-    spyOn(component.InvalidJsonFile, 'emit');
   });
 
   it('should create', () => {
@@ -50,12 +49,12 @@ describe('JsonInputComponent', () => {
 
   it('should return false if string isnt in json Format', () => {
     const jsonFile = mockdata.mockIncorrectJson;
-    expect(component.IsJsonString(jsonFile)).toBeFalsy();
+    expect(component.isJsonString(jsonFile)).toBeFalsy();
   });
 
   it('should return true if string is in json Format', () => {
     const jsonFile = mockdata.mockCorrectJson;
-    expect(component.IsJsonString(jsonFile)).toBeTrue();
+    expect(component.isJsonString(jsonFile)).toBeTrue();
   });
 
   it('should create graph and emit GraphUpdated if correct json file is added', () => {

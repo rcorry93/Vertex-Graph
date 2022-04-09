@@ -23,7 +23,7 @@
       </mat-radio-group>
 
   </div>
-  <div class="flex">
+  <div class="flex column">
     <textarea
       #textArea
       [ngClass]="{'error-border': isInvalidJson === true}"
@@ -31,5 +31,6 @@
       [(ngModel)]="jsonTextValue"
       (ngModelChange)="onTextAreaChange()"
       ></textarea>
+    <div *ngIf="isInvalidJson" class="error-message">Invalid Json</div>
   </div>
 </div>
