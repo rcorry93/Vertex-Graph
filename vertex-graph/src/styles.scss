@@ -288,3 +288,23 @@ a {
   color: var(--neutral) !important;
   fill: var(--neutral) !important;
 }
+
+button[mat-raised-button] {
+  background-color: var(--dark);
+  color: var(--blue);
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  opacity: 0 !important;
+  background-color: var(--blue) !important;  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--blue) !important;  }
+
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: var(--blue) !important;  }
+
+  .error-border {
+    border: red 2px solid !important;
+    background-color: #FF9494 !important;
+  }

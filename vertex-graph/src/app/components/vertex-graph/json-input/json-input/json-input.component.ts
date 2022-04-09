@@ -1,21 +1,23 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 import { GraphModel } from 'src/app/models/graph';
+import * as mockdata from '../../../../../assets/mockdata';
+import { Node, Edge } from '@swimlane/ngx-graph';
+
 
 @Component({
   selector: 'app-json-input',
   templateUrl: './json-input.component.html',
   styleUrls: ['./json-input.component.scss'],
 })
-export class JsonInputComponent implements OnInit {
+export class JsonInputComponent {
   graphModel: GraphModel = new GraphModel([], []);
-  jsonTextValue: string = '';
+  jsonTextValue = '';
+  selectedRadioOption = 'Custom';
+  radioOptions: string[] = ['Custom', 'Example'];
+  isInvalidJson = false;
 
-  @Output() onGraphUpdated = new EventEmitter<GraphModel>();
-  @Output() onInvalidJsonFile = new EventEmitter();
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  @Output() GraphUpdated = new EventEmitter<GraphModel>();
 
   onJsonFileAdded(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -32,27 +34,71 @@ export class JsonInputComponent implements OnInit {
 
   onTextAreaChange() {
     if (this.jsonTextValue != '') {
+      this.selectedRadioOption = 'Custom';
       this.readJsonandCreateGraph(this.jsonTextValue);
-    }
-  }
-
-  readJsonandCreateGraph(jsonFile: any) {
-    if (this.IsJsonString(jsonFile)) {
-      const json = JSON.parse(jsonFile);
-      this.graphModel = new GraphModel(json.edges, json.vertices);
-      this.jsonTextValue = JSON.stringify(json, undefined, 2);
-      this.onGraphUpdated.emit(this.graphModel);
     } else {
-      this.onInvalidJsonFile.emit();
+      this.isInvalidJson = true;
     }
   }
 
-  IsJsonString(str: string) {
+  onRadioChange(event: MatRadioChange) {
+    if (event.value === 'Example') {
+      this.readJsonandCreateGraph(mockdata.mockCorrectJson);
+    }
+  }
+
+  readJsonandCreateGraph(jsonFile: string) {
+    if (this.isJsonString(jsonFile)) {
+      const json = JSON.parse(jsonFile);
+      this.graphModel = new GraphModel(
+        this.convertJsonEdgeToEdge(json.edges), this.convertJsonVerticeToNode(json.vertices));
+      this.jsonTextValue = JSON.stringify(json, undefined, 2);
+      this.GraphUpdated.emit(this.graphModel);
+    } else {
+      this.isInvalidJson = true;
+    }
+  }
+
+  isJsonString(str: string) {
     try {
-      var json = JSON.parse(str);
+      const json = JSON.parse(str);
+      this.isInvalidJson = false;
       return typeof json === 'object';
     } catch (e) {
       return false;
     }
+  }
+
+  convertJsonEdgeToEdge(jsonEdge: any): Edge[] {
+    const edges: Edge[] = [];
+    jsonEdge.forEach((edge: any) => {
+      edges.push({
+        id: edge.id,
+        label: edge.label,
+        data: {
+          type: edge.type,
+          customColor: edge.color
+        },
+        source: edge.source_id,
+        target: edge.target_id,
+      });
+    });
+
+    return edges;
+  }
+
+  convertJsonVerticeToNode(jsonEdge: any): Node[] {
+    const nodes: Node[] = [];
+    jsonEdge.forEach((node: any) => {
+      nodes.push({
+        id: node.id,
+        label: node.label,
+        data: {
+          type: node.type,
+          customColor: node.color
+        },
+      });
+    });
+    return nodes;
   }
 }

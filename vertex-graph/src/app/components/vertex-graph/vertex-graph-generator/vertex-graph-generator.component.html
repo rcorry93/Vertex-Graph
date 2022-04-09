@@ -34,18 +34,33 @@
       </ng-template>
 
       <ng-template #nodeTemplate let-node>
-        <svg:g class="node">
-          <svg:rect
-            [attr.width]="node.dimension.width"
-            [attr.height]="node.dimension.height"
-            [attr.fill]="node.data.color" />
-          <svg:text
-            alignment-baseline="central"
-            [attr.x]="10"
-            [attr.y]="node.dimension.height / 2">
-            {{ node.label }}
-          </svg:text>
-        </svg:g>
+        <ng-container *ngIf="node.data.type === 'alarm'">
+          <svg:g>
+            <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+              <image
+                href="../../../../assets/images/alarm.png"
+                height="40"
+                width="40" />
+            </svg>
+            <svg:text alignment-baseline="center" [attr.x]="40" [attr.y]="24">
+              {{ node.label }}
+            </svg:text>
+          </svg:g>
+        </ng-container>
+        <ng-container *ngIf="node.data.type !== 'alarm'">
+          <svg:g class="node">
+            <svg:rect
+              [attr.width]="node.dimension.width"
+              [attr.height]="node.dimension.height"
+              [attr.fill]="node.data.customColor || node.data.color" />
+            <svg:text
+              alignment-baseline="central"
+              [attr.x]="10"
+              [attr.y]="node.dimension.height / 2">
+              {{ node.label }}
+            </svg:text>
+          </svg:g>
+        </ng-container>
       </ng-template>
 
       <ng-template #linkTemplate let-link>
@@ -53,6 +68,7 @@
           <svg:path
             class="line"
             stroke-width="2"
+            [attr.stroke]="link.data.customColor || link.data.color"
             marker-end="url(#arrow)"></svg:path>
           <svg:text class="edge-label" text-anchor="middle">
             <textPath

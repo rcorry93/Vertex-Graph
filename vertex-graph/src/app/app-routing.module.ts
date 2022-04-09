@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { VertexGraphContainerComponent } from './components/vertex-graph/vertex-graph-container/vertex-graph-container/vertex-graph-container.component';
 

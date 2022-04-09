@@ -1,11 +1,11 @@
-import { EdgeModel } from "./edge";
-import { VertexModel } from "./vertex";
+import { Node, Edge } from '@swimlane/ngx-graph';
+
 
 export class GraphModel {
-  edges?: EdgeModel[];
-  vertices?: VertexModel[];
+  edges: Edge[];
+  vertices: Node[];
 
-  constructor(edges: EdgeModel[], vertices: VertexModel[]) {
+  constructor(edges: Edge[], vertices: Node[]) {
     this.edges = edges;
     this.vertices = vertices;
   }

@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { GraphModel } from 'src/app/models/graph';
+import { MaterialModule } from 'src/app/modules/material.module';
 import * as mockdata from '../../../../../assets/mockdata';
 import { JsonInputComponent } from './json-input.component';
 
@@ -10,6 +12,7 @@ describe('JsonInputComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JsonInputComponent],
+      imports: [MaterialModule, FormsModule],
     }).compileComponents();
   });
 
@@ -18,8 +21,7 @@ describe('JsonInputComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     spyOn(component, 'readJsonandCreateGraph').and.callThrough();
-    spyOn(component.onGraphUpdated, 'emit');
-    spyOn(component.onInvalidJsonFile, 'emit');
+    spyOn(component.GraphUpdated, 'emit');
   });
 
   it('should create', () => {
@@ -50,25 +52,43 @@ describe('JsonInputComponent', () => {
 
   it('should return false if string isnt in json Format', () => {
     const jsonFile = mockdata.mockIncorrectJson;
-    expect(component.IsJsonString(jsonFile)).toBeFalsy();
+    expect(component.isJsonString(jsonFile)).toBeFalsy();
   });
 
   it('should return true if string is in json Format', () => {
     const jsonFile = mockdata.mockCorrectJson;
-    expect(component.IsJsonString(jsonFile)).toBeTrue();
+    expect(component.isJsonString(jsonFile)).toBeTrue();
   });
 
   it('should create graph and emit GraphUpdated if correct json file is added', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockCorrectJson);
     expect(component.graphModel.edges?.length).toBe(3);
-    expect(component.onGraphUpdated.emit).toHaveBeenCalled();
+    expect(component.GraphUpdated.emit).toHaveBeenCalled();
   });
 
-  it('should create graph and emit GraphUpdated if correct json file is added', () => {
+  it('should not create graph and emit GraphUpdated if incorrect json file is added', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockIncorrectJson);
     expect(component.graphModel.edges?.length).toBe(0);
-    expect(component.onGraphUpdated.emit).not.toHaveBeenCalled();
+    expect(component.GraphUpdated.emit).not.toHaveBeenCalled();
+  });
+
+  it('should create an Edge object after passing correct json in', () => {
+    const json = JSON.parse(mockdata.mockEdgesJson);
+    const edgeObject = component.convertJsonEdgeToEdge(json.edges);
+    expect(edgeObject.length).toBe(3);
+    expect(edgeObject[0].id).toBe('e1');
+    expect(edgeObject[0].label).toBe('edge n1-n2');
+    expect(edgeObject[0].source).toBe('n1');
+    expect(edgeObject[0].target).toBe('n2');
+  });
+
+  it('should create a Node object after passing correct json in', () => {
+    const json = JSON.parse(mockdata.mockVerticesJson);
+    const nodeObject = component.convertJsonVerticeToNode(json.vertices);
+    expect(nodeObject.length).toBe(4);
+    expect(nodeObject[0].id).toBe('n1');
+    expect(nodeObject[0].label).toBe('Node 1');
   });
 });
