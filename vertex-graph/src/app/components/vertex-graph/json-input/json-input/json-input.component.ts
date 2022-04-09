@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { GraphModel } from 'src/app/models/graph';
 import * as mockdata from '../../../../../assets/mockdata';
+import { Node, Edge } from '@swimlane/ngx-graph';
+
 
 @Component({
   selector: 'app-json-input',
@@ -10,16 +12,15 @@ import * as mockdata from '../../../../../assets/mockdata';
 })
 export class JsonInputComponent {
   graphModel: GraphModel = new GraphModel([], []);
-  jsonTextValue: string = '';
-  selectedRadioOption: string = 'Custom';
+  jsonTextValue = '';
+  selectedRadioOption = 'Custom';
   radioOptions: string[] = ['Custom', 'Example'];
-  isInvalidJson: boolean = false;
+  isInvalidJson = false;
 
 
-  @Output() onGraphUpdated = new EventEmitter<GraphModel>();
-  @Output() onInvalidJsonFile = new EventEmitter();
+  @Output() GraphUpdated = new EventEmitter<GraphModel>();
+  @Output() InvalidJsonFile = new EventEmitter();
 
-  constructor() {}
 
 
   onJsonFileAdded(event: Event) {
@@ -48,27 +49,55 @@ export class JsonInputComponent {
     }
   }
 
-  readJsonandCreateGraph(jsonFile: any) {
+  readJsonandCreateGraph(jsonFile: string) {
     if (this.IsJsonString(jsonFile)) {
       const json = JSON.parse(jsonFile);
-      this.graphModel = new GraphModel(json.edges, json.vertices);
+      this.graphModel = new GraphModel(
+        this.convertJsonEdgetoEdge(json.edges), this.convertJsonVerticetoNode(json.vertices));
       this.jsonTextValue = JSON.stringify(json, undefined, 2);
-      this.onGraphUpdated.emit(this.graphModel);
+      this.GraphUpdated.emit(this.graphModel);
     } else {
       this.isInvalidJson = true;
       console.log(this.isInvalidJson);
-      this.onInvalidJsonFile.emit();
+      this.InvalidJsonFile.emit();
     }
   }
 
   IsJsonString(str: string) {
     try {
-      var json = JSON.parse(str);
+      const json = JSON.parse(str);
       this.isInvalidJson = false;
       console.log(this.isInvalidJson);
       return typeof json === 'object';
     } catch (e) {
       return false;
     }
+  }
+
+  convertJsonEdgetoEdge(jsonEdge: any): Edge[] {
+    const edges: Edge[] = [];
+    jsonEdge.forEach((edge: any) => {
+      edges.push({
+        id: edge.id,
+        label: edge.label,
+        data: {type: edge.type},
+        source: edge.source_id,
+        target: edge.target_id,
+      });
+    });
+
+    return edges;
+  }
+
+  convertJsonVerticetoNode(jsonEdge: any): Node[] {
+    const nodes: Node[] = [];
+    jsonEdge.forEach((node: any) => {
+      nodes.push({
+        id: node.id,
+        label: node.label,
+        data: {type: node.type}
+      });
+    });
+    return nodes;
   }
 }

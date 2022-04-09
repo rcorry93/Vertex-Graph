@@ -18,8 +18,8 @@ describe('JsonInputComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     spyOn(component, 'readJsonandCreateGraph').and.callThrough();
-    spyOn(component.onGraphUpdated, 'emit');
-    spyOn(component.onInvalidJsonFile, 'emit');
+    spyOn(component.GraphUpdated, 'emit');
+    spyOn(component.InvalidJsonFile, 'emit');
   });
 
   it('should create', () => {
@@ -62,13 +62,13 @@ describe('JsonInputComponent', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockCorrectJson);
     expect(component.graphModel.edges?.length).toBe(3);
-    expect(component.onGraphUpdated.emit).toHaveBeenCalled();
+    expect(component.GraphUpdated.emit).toHaveBeenCalled();
   });
 
   it('should not create graph and emit GraphUpdated if incorrect json file is added', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockIncorrectJson);
     expect(component.graphModel.edges?.length).toBe(0);
-    expect(component.onGraphUpdated.emit).not.toHaveBeenCalled();
+    expect(component.GraphUpdated.emit).not.toHaveBeenCalled();
   });
 });

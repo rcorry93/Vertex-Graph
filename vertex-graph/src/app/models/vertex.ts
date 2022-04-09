@@ -1,9 +1,9 @@
 export class VertexModel {
-  id: String;
-  label: String;
-  type: String;
+  id: string;
+  label: string;
+  type: string;
 
-  constructor(id: String, label: String, type: String) {
+  constructor(id: string, label: string, type: string) {
     this.id = id;
     this.label = label;
     this.type = type;

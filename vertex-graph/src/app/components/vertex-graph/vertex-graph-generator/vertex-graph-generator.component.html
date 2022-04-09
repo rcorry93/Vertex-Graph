@@ -34,7 +34,7 @@
       </ng-template>
 
       <ng-template #nodeTemplate let-node>
-        <ng-container *ngIf="node.data.type == 'alarm'">
+        <ng-container *ngIf="node.data.type === 'alarm'">
           <svg:g>
             <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
               <image
@@ -47,7 +47,7 @@
             </svg:text>
           </svg:g>
         </ng-container>
-        <ng-container *ngIf="node.data.type != 'alarm'">
+        <ng-container *ngIf="node.data.type !== 'alarm'">
           <svg:g class="node">
             <svg:rect
               [attr.width]="node.dimension.width"

@@ -1,7 +1,7 @@
 <div class="flex column">
   <div class="flex mb-16 align-center">
       <button
-      [disabled]="selectedRadioOption == 'Example'"
+      [disabled]="selectedRadioOption === 'Example'"
       mat-raised-button
       (click)="fileInput.click()">
         <span>Select a file</span>

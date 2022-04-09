@@ -1,11 +1,11 @@
 export class EdgeModel {
-  id: String;
-  label: String;
-  type: String;
-  source_id: String;
-  target_id: String;
+  id: string;
+  label: string;
+  type: string;
+  source_id: string;
+  target_id: string;
 
-  constructor(id: String, label: String, type: String, source: String, target: String) {
+  constructor(id: string, label: string, type: string, source: string, target: string) {
     this.id = id;
     this.label = label;
     this.type = type;

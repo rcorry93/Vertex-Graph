@@ -1,8 +1,8 @@
 <div class="flex h-100 w-100">
   <div class="flex flex-center flex-1">
     <app-json-input
-      (onGraphUpdated)="updateGraph($event)"
-      (onInvalidJsonFile)="openSnackBar()">
+      (GraphUpdated)="updateGraph($event)"
+      (InvalidJsonFile)="openSnackBar()">
     </app-json-input>
   </div>
   <div class="flex flex-center flex-1">

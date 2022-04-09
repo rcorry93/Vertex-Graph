@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GraphModel } from 'src/app/models/graph';
 
 @Component({
@@ -6,10 +6,8 @@ import { GraphModel } from 'src/app/models/graph';
   templateUrl: './vertex-graph-container.component.html',
   styleUrls: ['./vertex-graph-container.component.scss'],
 })
-export class VertexGraphContainerComponent implements OnInit {
+export class VertexGraphContainerComponent {
   generatedGraph: GraphModel = new GraphModel([], []);
-
-  ngOnInit(): void {}
 
   updateGraph(graph: GraphModel) {
     this.generatedGraph = graph;

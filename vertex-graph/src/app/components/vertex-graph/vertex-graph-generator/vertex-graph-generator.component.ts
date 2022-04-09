@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { GraphModel } from 'src/app/models/graph';
-import { Node, Edge, ClusterNode } from '@swimlane/ngx-graph';
+import { Node, Edge } from '@swimlane/ngx-graph';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -8,17 +8,13 @@ import { Subject } from 'rxjs';
   templateUrl: './vertex-graph-generator.component.html',
   styleUrls: ['./vertex-graph-generator.component.scss'],
 })
-export class VertexGraphGeneratorComponent implements OnInit {
+export class VertexGraphGeneratorComponent implements OnChanges {
   @Input() graph: GraphModel = new GraphModel([], []);
 
   edges: Edge[] = new Array<Edge>();
   vertices: Node[] = new Array<Node>();
   update$: Subject<boolean> = new Subject();
-  center$ = new Subject<any>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  center$ = new Subject<boolean>();
 
   ngOnChanges(): void {
     this.updateGraph(this.graph);
@@ -26,31 +22,9 @@ export class VertexGraphGeneratorComponent implements OnInit {
 
   updateGraph(graph: GraphModel) {
     this.graph = graph;
-    this.convertTypes(graph);
+    this.edges =this.graph.edges;
+    this.vertices = this.graph.vertices
     this.update$.next(true);
     this.center$.next(true);
-  }
-
-  convertTypes(graph: GraphModel) {
-    if (graph.edges != null) {
-      this.edges = graph.edges.map(edge => {
-        return {
-          id: edge.id,
-          source: edge.source_id,
-          target: edge.target_id,
-          label: edge.label,
-          data: { type: edge.type }
-        };
-      }) as Edge[];
-    }
-    if (graph.vertices != null) {
-      this.vertices = graph.vertices.map(vertex => {
-        return {
-          id: vertex.id,
-          label: vertex.label,
-          data: { type: vertex.type }
-        };
-      }) as Node[];
-    }
   }
 }
