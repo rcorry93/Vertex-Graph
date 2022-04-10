@@ -18,7 +18,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd vertex-graph
+  cd vertex-graph/vertex-graph
 ```
 
 Install dependencies
