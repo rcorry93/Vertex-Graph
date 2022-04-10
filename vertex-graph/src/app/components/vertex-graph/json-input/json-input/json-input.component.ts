@@ -4,7 +4,6 @@ import { GraphModel } from 'src/app/models/graph';
 import * as mockdata from '../../../../../assets/mockdata';
 import { Node, Edge } from '@swimlane/ngx-graph';
 
-
 @Component({
   selector: 'app-json-input',
   templateUrl: './json-input.component.html',
@@ -30,6 +29,7 @@ export class JsonInputComponent {
       this.readJsonandCreateGraph(fileReader.result as string);
     };
     fileReader.readAsText(input.files[0]);
+    input.value = '';
   }
 
   onTextAreaChange() {
@@ -37,7 +37,10 @@ export class JsonInputComponent {
       this.selectedRadioOption = 'Custom';
       this.readJsonandCreateGraph(this.jsonTextValue);
     } else {
-      this.isInvalidJson = true;
+      this.readJsonandCreateGraph('');
+      this.jsonTextValue == ''
+        ? (this.isInvalidJson = false)
+        : (this.isInvalidJson = true);
     }
   }
 
@@ -48,14 +51,19 @@ export class JsonInputComponent {
   }
 
   readJsonandCreateGraph(jsonFile: string) {
+    this.jsonTextValue = jsonFile;
     if (this.isJsonString(jsonFile)) {
       const json = JSON.parse(jsonFile);
       this.graphModel = new GraphModel(
-        this.convertJsonEdgeToEdge(json.edges), this.convertJsonVerticeToNode(json.vertices));
-      this.jsonTextValue = JSON.stringify(json, undefined, 2);
+        this.convertJsonEdgeToEdge(json.edges),
+        this.convertJsonVerticeToNode(json.vertices)
+      );
       this.GraphUpdated.emit(this.graphModel);
     } else {
-      this.isInvalidJson = true;
+      jsonFile == ''
+        ? (this.isInvalidJson = false)
+        : (this.isInvalidJson = true);
+      this.GraphUpdated.emit(new GraphModel([], []));
     }
   }
 
@@ -77,7 +85,7 @@ export class JsonInputComponent {
         label: edge.label,
         data: {
           type: edge.type,
-          customColor: edge.color
+          customColor: edge.color,
         },
         source: edge.source_id,
         target: edge.target_id,
@@ -95,7 +103,7 @@ export class JsonInputComponent {
         label: node.label,
         data: {
           type: node.type,
-          customColor: node.color
+          customColor: node.color,
         },
       });
     });

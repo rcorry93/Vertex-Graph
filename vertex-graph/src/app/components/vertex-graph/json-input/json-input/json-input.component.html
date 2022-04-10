@@ -25,6 +25,7 @@
   </div>
   <div class="flex column">
     <textarea
+      [placeholder]="jsonTextValue === '' ? 'Type or Upload a JSON file' : ''"
       #textArea
       [ngClass]="{'error-border': isInvalidJson === true}"
       name="jsonArea"

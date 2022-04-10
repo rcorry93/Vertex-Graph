@@ -1,13 +1,12 @@
 mat-drawer {
   background-color: var(--carbon);
   color: var(--neutral);
-
 }
 
-.menu-container, mat-toolbar {
+.menu-container,
+mat-toolbar {
   background-color: var(--carbon);
   color: var(--neutral);
-
 }
 
 .sidenav-content {
@@ -20,9 +19,15 @@ mat-drawer {
 .sidenav {
   width: 200px;
   height: 100%;
+
+  & ul {
+    list-style: none;
+    padding: 32px 16px;
+    margin: 0;
+  }
 }
 
 .content-container {
   background-color: var(--neutral);
-  padding: 32px 16px
+  padding: 32px 16px;
 }

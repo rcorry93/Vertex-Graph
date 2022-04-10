@@ -28,13 +28,15 @@ describe('JsonInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not call readJsonandCreateGraph if textarea is changed to empty', () => {
+  it('should call readJsonandCreateGraph with empty string if textarea is changed to empty or incorrect data', () => {
     component.jsonTextValue = mockdata.mockIncorrectJson;
     component.onTextAreaChange();
-    expect(component.readJsonandCreateGraph).toHaveBeenCalledTimes(1);
+    expect(component.readJsonandCreateGraph).toHaveBeenCalledWith(
+      mockdata.mockIncorrectJson
+    );
     component.jsonTextValue = '';
     component.onTextAreaChange();
-    expect(component.readJsonandCreateGraph).toHaveBeenCalledTimes(1);
+    expect(component.readJsonandCreateGraph).toHaveBeenCalledWith('');
   });
 
   it('should call filereader when file is input', () => {
@@ -67,11 +69,13 @@ describe('JsonInputComponent', () => {
     expect(component.GraphUpdated.emit).toHaveBeenCalled();
   });
 
-  it('should not create graph and emit GraphUpdated if incorrect json file is added', () => {
+  it('should emit empty graph when incorrect json data has been processed', () => {
     component.graphModel = new GraphModel([], []);
     component.readJsonandCreateGraph(mockdata.mockIncorrectJson);
     expect(component.graphModel.edges?.length).toBe(0);
-    expect(component.GraphUpdated.emit).not.toHaveBeenCalled();
+    expect(component.GraphUpdated.emit).toHaveBeenCalledOnceWith(
+      new GraphModel([], [])
+    );
   });
 
   it('should create an Edge object after passing correct json in', () => {
