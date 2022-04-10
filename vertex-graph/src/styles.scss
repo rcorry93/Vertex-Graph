@@ -17,7 +17,7 @@ body {
 }
 a {
   text-decoration: none;
-  color: inherit;
+  color: var(--blue);
 }
 .flex {
   display: flex;
@@ -296,15 +296,18 @@ button[mat-raised-button] {
 
 .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
   opacity: 0 !important;
-  background-color: var(--blue) !important;  }
+  background-color: var(--blue) !important;
+}
 
-  .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: var(--blue) !important;  }
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--blue) !important;
+}
 
-  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: var(--blue) !important;  }
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: var(--blue) !important;
+}
 
-  .error-border {
-    border: red 2px solid !important;
-    background-color: #FF9494 !important;
-  }
+.error-border {
+  border: red 2px solid !important;
+  background-color: #ff9494 !important;
+}
